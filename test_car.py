@@ -7,8 +7,8 @@ class TestCar(unittest.TestCase):
 	def setUp(self):
 		self.pos = (100, 100)
 		self.car_length = 50
-		self.car_angle = pi / 2
-		self.wheel_angle = pi / 2
+		self.car_angle = pi / 4
+		self.wheel_angle = pi / 4
 		self.car = car.Car(self.pos, self.car_length, self.car_angle, self.wheel_angle)
 
 	def testGetFrontPos(self):
@@ -50,7 +50,7 @@ class TestCar(unittest.TestCase):
 		new_centre = ((car_front_pos_x - car_back_pos_x) / 2, (car_front_pos_y - car_back_pos_y) / 2)
 
 		# calculate new car angle using front and back positions
-		new_car_angle = atan((car_front_pos_x - car_back_pos_x) / (car_front_pos_y - car_back_pos_y))
+		new_car_angle = atan((car_front_pos_y - car_back_pos_y) / (car_front_pos_x - car_back_pos_x))
 
 		self.car.move(mov)
 
