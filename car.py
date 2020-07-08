@@ -1,26 +1,30 @@
 import math
+import trig_utils
+
+
+DEFAULT_ACCELERATION = 0.1
+DEFAULT_SPEED_DAMPING = 0.99
+SPEED_EPSILON = 0.05
+
 
 class Car:
-	def __init__(self, pos, car_length, car_angle=0, wheel_angle=0):
+	def __init__(self, pos, car_length, car_width, car_angle=0, wheel_angle=0):
 		self.pos = pos
 		self.car_length = car_length
+		self.car_width = car_width
 		self.car_angle = car_angle
 		self.wheel_angle = wheel_angle
 		self.half_car_length = car_length / 2
+		self.half_car_width = car_width / 2
+		self.speed = 0
 
-	def get_front_pos(self):
-		front_pos_x = self.pos[0] + self.half_car_length * math.cos(self.car_angle)
-		front_pos_y = self.pos[1] + self.half_car_length * math.sin(self.car_angle)
-		return (front_pos_x, front_pos_y)
+	def update(self):
+		self.speed *= DEFAULT_SPEED_DAMPING
+		if abs(self.speed) <= SPEED_EPSILON:
+			self.speed = 0
 
-	def get_back_pos(self):
-		back_pos_x = self.pos[0] - self.half_car_length * math.cos(self.car_angle)
-		back_pos_y = self.pos[1] - self.half_car_length * math.sin(self.car_angle)
-		return (back_pos_x, back_pos_y)
-
-	def move(self, mov):
-		new_front_pos = self._get_front_with_move(mov)
-		new_back_pos = self._get_back_with_move(mov)
+		new_front_pos = trig_utils.calc_point(self.get_front_pos(), self.wheel_angle, self.speed)
+		new_back_pos = trig_utils.calc_point(self.get_back_pos(), self.car_angle, self.speed)
 
 		x_diff = new_front_pos[0] - new_back_pos[0]
 		y_diff = new_front_pos[1] - new_back_pos[1]
@@ -33,14 +37,21 @@ class Car:
 		else:
 			self.car_angle = math.atan((new_front_pos[1] - new_back_pos[1]) / (new_front_pos[0] - new_back_pos[0]))
 
-	def _get_front_with_move(self, mov):
-		front_pos = self.get_front_pos()
-		new_front_pos_x = front_pos[0] + mov * math.cos(self.wheel_angle)
-		new_front_pos_y = front_pos[1] + mov * math.sin(self.wheel_angle)
-		return (new_front_pos_x, new_front_pos_y)
 
-	def _get_back_with_move(self, mov):
-		back_pos = self.get_back_pos()
-		new_back_pos_x = back_pos[0] + mov * math.cos(self.car_angle)
-		new_back_pos_y = back_pos[1] + mov * math.sin(self.car_angle)
-		return (new_back_pos_x, new_back_pos_y)
+	def accelerate(self):
+		self.speed += DEFAULT_ACCELERATION
+
+	def reverse(self):
+		self.speed -= DEFAULT_ACCELERATION
+
+	def get_front_pos(self):
+		return trig_utils.calc_point(self.pos, self.car_angle, self.half_car_length)
+
+	def get_back_pos(self):
+		return trig_utils.calc_point(self.pos, self.car_angle, -self.half_car_length)
+
+	def get_front_wheels(self):
+		return trig_utils.calc_mid_point(self.get_front_pos(), self.car_angle, self.car_width)
+
+	def get_back_wheels(self):
+		return trig_utils.calc_mid_point(self.get_back_pos(), self.car_angle, self.car_width)
