@@ -23,6 +23,16 @@ class TestCar(unittest.TestCase):
 
 		self.assertEqual(self.car.speed, -car.DEFAULT_ACCELERATION)
 
+	def testSteerLeft(self):
+		self.car.steer_left()
+
+		self.assertEqual(self.car.wheel_angle, math.pi / 4 - car.DEFAULT_STEER)
+
+	def testSteerRight(self):
+		self.car.steer_right()
+
+		self.assertEqual(self.car.wheel_angle, math.pi / 4 + car.DEFAULT_STEER)
+
 	def testSpeedDamping(self):
 		self.car.speed = 1
 
