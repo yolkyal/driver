@@ -47,6 +47,9 @@ class TestCar(unittest.TestCase):
 
 		self.assertEqual(0, self.car.speed)
 
+	def testGetTrueWheelAngle(self):
+		self.assertEqual(self.car.car_angle + self.car.wheel_angle, self.car.get_true_wheel_angle())
+
 	@mock.patch('trig_utils.calc_point')
 	def testGetFrontPos(self, mock_calc_point):
 		car_front_pos = mock.Mock()
@@ -109,8 +112,10 @@ class TestCar(unittest.TestCase):
 		car_back_pos_y = self.pos[1] - self.car_length * 0.5 * math.sin(self.car_angle)
 
 		# move front position in direction of front wheels
-		car_front_pos_x += speed * math.cos(self.wheel_angle)
-		car_front_pos_y += speed * math.sin(self.wheel_angle)
+		true_wheel_angle = self.car.car_angle + self.car.wheel_angle
+
+		car_front_pos_x += speed * math.cos(true_wheel_angle)
+		car_front_pos_y += speed * math.sin(true_wheel_angle)
 
 		# move back position in direction of car
 		car_back_pos_x  += speed * math.cos(self.car_angle)

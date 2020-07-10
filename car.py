@@ -2,9 +2,9 @@ import math
 import trig_utils
 
 
-DEFAULT_ACCELERATION = 0.1
+DEFAULT_ACCELERATION = 0.2
 DEFAULT_STEER = math.pi / 32
-DEFAULT_SPEED_DAMPING = 0.95
+DEFAULT_SPEED_DAMPING = 0.97
 SPEED_EPSILON = 0.01
 
 
@@ -32,11 +32,9 @@ class Car:
 			x_diff = new_front_pos[0] - new_back_pos[0]
 			y_diff = new_front_pos[1] - new_back_pos[1]
 
-			# zero division safety
-			if x_diff == 0:
-				self.car_angle = math.pi / 2 if y_diff > 0 else (3 * math.pi) / 2
-			else:
-				self.car_angle = math.atan2(new_front_pos[1] - new_back_pos[1], new_front_pos[0] - new_back_pos[0])
+			new_car_angle = math.atan2(new_front_pos[1] - new_back_pos[1], new_front_pos[0] - new_back_pos[0])
+			self.wheel_angle += new_car_angle - self.car_angle
+			self.car_angle = new_car_angle
 
 	def accelerate(self):
 		self.speed += DEFAULT_ACCELERATION
