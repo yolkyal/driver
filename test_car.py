@@ -80,7 +80,7 @@ class TestCar(unittest.TestCase):
 
 		self.assertEqual(result, (wheel_front_right, wheel_front_left))
 		mock_calc_point.assert_called_once_with(self.pos, self.car_angle, self.car_length / 2)
-		mock_calc_mid_point.assert_called_once_with(car_front_pos, self.car_angle, self.car_width)
+		mock_calc_mid_point.assert_called_once_with(car_front_pos, self.car_angle + math.pi / 2, self.car_width)
 	
 	@mock.patch('trig_utils.calc_mid_point')
 	@mock.patch('trig_utils.calc_point')
@@ -95,11 +95,12 @@ class TestCar(unittest.TestCase):
 
 		self.assertEqual(result, (wheel_back_right, wheel_back_left))
 		mock_calc_point.assert_called_once_with(self.pos, self.car_angle, -self.car_length / 2)
-		mock_calc_mid_point.assert_called_once_with(car_back_pos, self.car_angle, self.car_width)
+		mock_calc_mid_point.assert_called_once_with(car_back_pos, self.car_angle + math.pi / 2, self.car_width)
 
 	def testUpdate(self):
 		speed = 1
 		self.car.speed = speed
+		speed *= car.DEFAULT_SPEED_DAMPING
 
 		# current front and back positions
 		car_front_pos_x = self.pos[0] + self.car_length * 0.5 * math.cos(self.car_angle)
@@ -116,7 +117,7 @@ class TestCar(unittest.TestCase):
 		car_back_pos_y += speed * math.sin(self.car_angle)
 
 		# calculate new centre using new front and back positions
-		new_centre = ((car_front_pos_x - car_back_pos_x) / 2, (car_front_pos_y - car_back_pos_y) / 2)
+		new_centre = ((car_front_pos_x + car_back_pos_x) / 2, (car_front_pos_y + car_back_pos_y) / 2)
 
 		# calculate new car angle using front and back positions
 		new_car_angle = math.atan((car_front_pos_y - car_back_pos_y) / (car_front_pos_x - car_back_pos_x))

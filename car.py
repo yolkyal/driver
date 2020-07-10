@@ -4,7 +4,7 @@ import trig_utils
 
 DEFAULT_ACCELERATION = 0.1
 DEFAULT_STEER = math.pi / 32
-DEFAULT_SPEED_DAMPING = 0.99
+DEFAULT_SPEED_DAMPING = 0.95
 SPEED_EPSILON = 0.01
 
 
@@ -27,10 +27,10 @@ class Car:
 			new_front_pos = trig_utils.calc_point(self.get_front_pos(), self.wheel_angle, self.speed)
 			new_back_pos = trig_utils.calc_point(self.get_back_pos(), self.car_angle, self.speed)
 
+			self.pos = ((new_front_pos[0] + new_back_pos[0]) / 2, (new_front_pos[1] + new_back_pos[1]) / 2)
+
 			x_diff = new_front_pos[0] - new_back_pos[0]
 			y_diff = new_front_pos[1] - new_back_pos[1]
-
-			self.pos = (x_diff / 2, y_diff / 2)
 
 			# zero division safety
 			if x_diff == 0:
@@ -57,7 +57,7 @@ class Car:
 		return trig_utils.calc_point(self.pos, self.car_angle, -self.half_car_length)
 
 	def get_front_wheels(self):
-		return trig_utils.calc_mid_point(self.get_front_pos(), self.car_angle, self.car_width)
+		return trig_utils.calc_mid_point(self.get_front_pos(), self.car_angle + math.pi / 2, self.car_width)
 
 	def get_back_wheels(self):
-		return trig_utils.calc_mid_point(self.get_back_pos(), self.car_angle, self.car_width)
+		return trig_utils.calc_mid_point(self.get_back_pos(), self.car_angle + math.pi / 2, self.car_width)
