@@ -3,7 +3,7 @@ import trig_utils
 
 
 DEFAULT_ACCELERATION = 0.2
-DEFAULT_STEER = math.pi / 32
+DEFAULT_STEER = math.pi / 64
 DEFAULT_SPEED_DAMPING = 0.97
 SPEED_EPSILON = 0.01
 

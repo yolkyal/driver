@@ -11,11 +11,19 @@ class TestCarController(unittest.TestCase):
 	def testSteerLeft(self):
 		e = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_LEFT)
 		self.car_controller.handle_event(e)
+
+		self.car_controller.update()
+
+		self.assertTrue(self.car_controller.is_steering_left)
 		self.car.steer_left.assert_called_once()
 
 	def testSteerRight(self):
 		e = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_RIGHT)
 		self.car_controller.handle_event(e)
+
+		self.car_controller.update()
+
+		self.assertTrue(self.car_controller.is_steering_right)
 		self.car.steer_right.assert_called_once()
 
 	def testAccelerate(self):
