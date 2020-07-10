@@ -120,7 +120,7 @@ class TestCar(unittest.TestCase):
 		new_centre = ((car_front_pos_x + car_back_pos_x) / 2, (car_front_pos_y + car_back_pos_y) / 2)
 
 		# calculate new car angle using front and back positions
-		new_car_angle = math.atan((car_front_pos_y - car_back_pos_y) / (car_front_pos_x - car_back_pos_x))
+		new_car_angle = math.atan2(car_front_pos_y - car_back_pos_y, car_front_pos_x - car_back_pos_x)
 
 		self.car.update()
 

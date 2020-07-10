@@ -20,7 +20,7 @@ class CarController:
 			if e.key == pygame.K_UP:
 				self.is_accelerating = False
 			elif e.key == pygame.K_DOWN:
-				self.car.is_reversing = False
+				self.is_reversing = False
 
 	def update(self):
 		if self.is_accelerating:

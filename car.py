@@ -36,7 +36,7 @@ class Car:
 			if x_diff == 0:
 				self.car_angle = math.pi / 2 if y_diff > 0 else (3 * math.pi) / 2
 			else:
-				self.car_angle = math.atan((new_front_pos[1] - new_back_pos[1]) / (new_front_pos[0] - new_back_pos[0]))
+				self.car_angle = math.atan2(new_front_pos[1] - new_back_pos[1], new_front_pos[0] - new_back_pos[0])
 
 	def accelerate(self):
 		self.speed += DEFAULT_ACCELERATION
