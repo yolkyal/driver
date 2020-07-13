@@ -6,12 +6,13 @@ from unittest import mock
 
 class TestCar(unittest.TestCase):
 	def setUp(self):
+		self.id = 'MOCK_ID'
 		self.pos = (100, 100)
 		self.car_length = 50
 		self.car_width = 30
 		self.car_angle = math.pi / 4
 		self.wheel_angle = math.pi / 4
-		self.car = car.Car(self.pos, self.car_length, self.car_width, self.car_angle, self.wheel_angle)
+		self.car = car.Car(self.id, self.pos, self.car_length, self.car_width, self.car_angle, self.wheel_angle)
 
 	def testAccelerate(self):
 		self.car.accelerate()

@@ -10,7 +10,8 @@ DEFAULT_STEER_LIMIT = math.pi / 4
 
 
 class Car:
-	def __init__(self, pos, car_length, car_width, car_angle=0, wheel_angle=0):
+	def __init__(self, id, pos, car_length, car_width, car_angle=0, wheel_angle=0):
+		self.id = id
 		self.pos = pos
 		self.car_length = car_length
 		self.car_width = car_width
