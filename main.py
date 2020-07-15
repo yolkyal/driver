@@ -8,7 +8,7 @@ from car_drawer import CarDrawer
 from image_manager import ImageManager
 
 
-BG_COL = (220, 220, 220)
+BG_COL = (150, 200, 150)
 
 
 def main():
@@ -18,16 +18,18 @@ def main():
 	clock = pygame.time.Clock()
 
 	car_id = 'CAR_ID'
+	wheel_id = 'WHEEL_ID'
 	car_start_pos = (400, 600)
-	car_length = 112
-	car_width = 64
+	car_length = 90
+	car_width = 50
 	car_angle = 0
 	wheel_angle = 0
 
 	image_manager = ImageManager()
 	image_manager.put(car_id, 'images/car.png', (64, 112))
+	image_manager.put(wheel_id, 'images/tyre.png', (8, 24))
 
-	car = Car(car_id, car_start_pos, car_length, car_width, car_angle, wheel_angle)
+	car = Car(car_id, wheel_id, car_start_pos, car_length, car_width, car_angle, wheel_angle)
 	car_controller = CarController(car)
 	car_drawer = CarDrawer(image_manager)
 
